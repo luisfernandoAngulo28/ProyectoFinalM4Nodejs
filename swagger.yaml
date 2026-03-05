@@ -1,0 +1,697 @@
+openapi: 3.0.0
+info:
+  title: API CRUD Users & Tasks
+  description: API REST para gestión de usuarios y tareas con paginación
+  version: 1.0.0
+  contact:
+    name: Diplomado Node.js
+servers:
+  - url: http://localhost:3000
+    description: Servidor de desarrollo
+
+tags:
+  - name: Users
+    description: Operaciones CRUD de usuarios
+  - name: Tasks
+    description: Operaciones CRUD de tareas
+
+paths:
+  /api/users:
+    get:
+      tags:
+        - Users
+      summary: Obtener todos los usuarios
+      description: Retorna una lista con todos los usuarios registrados
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    post:
+      tags:
+        - Users
+      summary: Crear un nuevo usuario
+      description: Crea un nuevo usuario en el sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  example: "nuevouser"
+                password:
+                  type: string
+                  example: "password123"
+                status:
+                  type: string
+                  example: "active"
+                  default: "active"
+      responses:
+        '201':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Usuario creado exitosamente"
+                  data:
+                    $ref: '#/components/schemas/User'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: El username ya existe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/users/{id}:
+    get:
+      tags:
+        - Users
+      summary: Obtener usuario por ID
+      description: Retorna un usuario específico por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    put:
+      tags:
+        - Users
+      summary: Actualizar usuario
+      description: Actualiza los datos de un usuario existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario a actualizar
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "usuarioActualizado"
+                password:
+                  type: string
+                  example: "newpassword123"
+                status:
+                  type: string
+                  example: "inactive"
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Usuario actualizado exitosamente"
+                  data:
+                    $ref: '#/components/schemas/User'
+        '400':
+          description: No hay campos para actualizar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: El username ya existe
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    delete:
+      tags:
+        - Users
+      summary: Eliminar usuario
+      description: Elimina un usuario del sistema
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID del usuario a eliminar
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Usuario eliminado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Usuario eliminado exitosamente"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        example: 1
+                      username:
+                        type: string
+                        example: "admin"
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/users/list/pagination:
+    get:
+      tags:
+        - Users
+      summary: Listar usuarios con paginación (30 pts)
+      description: Retorna una lista paginada de usuarios con búsqueda y ordenamiento
+      parameters:
+        - name: page
+          in: query
+          description: Número de la página
+          schema:
+            type: integer
+            default: 1
+            example: 1
+        - name: limit
+          in: query
+          description: Cantidad de registros por página
+          schema:
+            type: integer
+            enum: [5, 10, 15, 20]
+            default: 10
+            example: 5
+        - name: search
+          in: query
+          description: Búsqueda de username (ILIKE). Si no existe, muestra todos
+          schema:
+            type: string
+            example: "use"
+        - name: orderBy
+          in: query
+          description: Campo por el cual ordenar
+          schema:
+            type: string
+            enum: [id, username, status]
+            default: id
+            example: "username"
+        - name: orderDir
+          in: query
+          description: Dirección del ordenamiento
+          schema:
+            type: string
+            enum: [ASC, DESC]
+            default: DESC
+            example: "DESC"
+      responses:
+        '200':
+          description: Lista paginada obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  total:
+                    type: integer
+                    description: Total de registros
+                    example: 20
+                  page:
+                    type: integer
+                    description: Número de página actual
+                    example: 1
+                  pages:
+                    type: integer
+                    description: Total de páginas
+                    example: 4
+                  data:
+                    type: array
+                    description: Array de usuarios (id, username, status)
+                    items:
+                      $ref: '#/components/schemas/User'
+              example:
+                success: true
+                total: 20
+                page: 1
+                pages: 4
+                data:
+                  - id: 3
+                    username: "user2"
+                    status: "inactive"
+                  - id: 2
+                    username: "user1"
+                    status: "active"
+                  - id: 4
+                    username: "testuser"
+                    status: "active"
+        '400':
+          description: Parámetros inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/tasks:
+    get:
+      tags:
+        - Tasks
+      summary: Obtener todas las tareas
+      description: Retorna una lista con todas las tareas registradas
+      responses:
+        '200':
+          description: Lista de tareas obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TaskWithUser'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    post:
+      tags:
+        - Tasks
+      summary: Crear una nueva tarea
+      description: Crea una nueva tarea en el sistema
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - user_id
+              properties:
+                name:
+                  type: string
+                  example: "Completar proyecto final"
+                done:
+                  type: boolean
+                  example: false
+                  default: false
+                user_id:
+                  type: integer
+                  example: 1
+      responses:
+        '201':
+          description: Tarea creada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Tarea creada exitosamente"
+                  data:
+                    $ref: '#/components/schemas/Task'
+        '400':
+          description: Datos inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/tasks/{id}:
+    get:
+      tags:
+        - Tasks
+      summary: Obtener tarea por ID
+      description: Retorna una tarea específica por su ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la tarea
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Tarea encontrada
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/TaskWithUser'
+        '404':
+          description: Tarea no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    put:
+      tags:
+        - Tasks
+      summary: Actualizar tarea
+      description: Actualiza los datos de una tarea existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la tarea a actualizar
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Tarea actualizada"
+                done:
+                  type: boolean
+                  example: true
+                user_id:
+                  type: integer
+                  example: 2
+      responses:
+        '200':
+          description: Tarea actualizada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Tarea actualizada exitosamente"
+                  data:
+                    $ref: '#/components/schemas/Task'
+        '400':
+          description: No hay campos para actualizar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Tarea no encontrada o usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    delete:
+      tags:
+        - Tasks
+      summary: Eliminar tarea
+      description: Elimina una tarea del sistema
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID de la tarea a eliminar
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Tarea eliminada exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Tarea eliminada exitosamente"
+                  data:
+                    $ref: '#/components/schemas/Task'
+        '404':
+          description: Tarea no encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /api/tasks/user/{userId}:
+    get:
+      tags:
+        - Tasks
+      summary: Obtener tareas por usuario
+      description: Retorna todas las tareas de un usuario específico
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          description: ID del usuario
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Lista de tareas del usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TaskWithUser'
+        '500':
+          description: Error del servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "admin"
+        status:
+          type: string
+          example: "active"
+    
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Completar proyecto Node.js"
+        done:
+          type: boolean
+          example: false
+        user_id:
+          type: integer
+          example: 1
+    
+    TaskWithUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Completar proyecto Node.js"
+        done:
+          type: boolean
+          example: false
+        user_id:
+          type: integer
+          example: 1
+        username:
+          type: string
+          example: "admin"
+    
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        message:
+          type: string
+          example: "Error al procesar la solicitud"
+        error:
+          type: string
+          example: "Detalle del error"
