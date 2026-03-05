@@ -1,4 +1,4 @@
-# 🚀 API REST - CRUD Users & Tasks
+# 🚀 Proyecto Final - Sistema de Gestión de Usuarios y Tareas
 
 ---
 
@@ -8,7 +8,7 @@
 **ESCUELA DE POSTGRADO**
 
 ### PROYECTO FINAL
-**Sistema de Gestión de Usuarios y Tareas**
+**Sistema de Gestión de Usuarios y Tareas - Fullstack**
 
 **Diplomado:** DIPLOMADO EN FULLSTACK DEVELOPER BACK END Y FRONT END  
 **Módulo 4:** ARQUITECTURA DESARROLLO BACKEND CON NODEJS
@@ -16,407 +16,501 @@
 **Docente:** Ing. Trigo Vargas Carlos Ariel  
 **Estudiante:** Ing. Angulo Heredia Luis Fernando
 
-**Fecha:** 7 de marzo de 2026  
+**Fecha de Entrega:** 7 de marzo de 2026  
 **País:** Bolivia 🇧🇴
 
 ---
 
 ## 📄 Descripción del Proyecto
 
-API REST completa para la gestión de usuarios y tareas con Node.js, Express y PostgreSQL. Proyecto desarrollado como trabajo final del Módulo 4 del Diplomado en Fullstack Developer.
+Aplicación web fullstack completa para la gestión de usuarios y tareas, desarrollada como proyecto final del Módulo 4 del Diplomado en Fullstack Developer. El sistema implementa una API REST robusta con Node.js y Express, complementada con un dashboard moderno en React.
 
-## 📋 Tabla de Contenidos
+## 🏗️ Estructura del Monorepo
 
-- [Características](#-características)
-- [Tecnologías](#-tecnologías)
-- [Prerequisitos](#-prerequisitos)
-- [Instalación](#-instalación)
-- [Configuración](#-configuración)
-- [Uso](#-uso)
-- [API Endpoints](#-api-endpoints)
-- [Documentación Swagger](#-documentación-swagger)
-- [Seguridad](#-seguridad)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
+```
+ProyectoFinalM4Nodejs/
+├── backend/                 # API REST con Node.js + Express + PostgreSQL
+│   ├── src/
+│   │   ├── config/         # Configuración DB y variables entorno
+│   │   ├── controllers/    # Lógica de negocio
+│   │   ├── middlewares/    # Autenticación y validaciones
+│   │   ├── routes/         # Definición de rutas
+│   │   └── logs/           # Sistema de logging
+│   ├── database.sql        # Schema y datos iniciales
+│   ├── swagger.yaml        # Documentación API
+│   └── package.json
+│
+├── frontend/               # Dashboard React + Vite
+│   ├── src/
+│   │   ├── components/     # Componentes reutilizables
+│   │   ├── pages/          # Páginas de la aplicación
+│   │   ├── services/       # Cliente API (Axios)
+│   │   └── App.jsx
+│   └── package.json
+│
+├── README.md               # Este archivo
+└── EXAMEN-FINAL-RESUMEN.md # Documentación completa del examen
+```
 
-## ✨ Características
+---
 
-- ✅ CRUD completo de Usuarios
-- ✅ CRUD completo de Tareas
-- ✅ API de paginación con búsqueda y ordenamiento
-- ✅ Autenticación JWT (login/register)
-- ✅ Encriptación de contraseñas con bcrypt
-- ✅ Validaciones avanzadas con express-validator
-- ✅ Protección con CORS y Helmet
-- ✅ Rate limiting (100 peticiones/15min)
-- ✅ Logger con Pino
-- ✅ Manejo centralizado de errores
-- ✅ Índices en base de datos para mejor performance
-- ✅ ESLint para código limpio
-- ✅ Variables de entorno
-- ✅ Documentación Swagger
+## ✨ Características Principales
 
-## 🛠 Tecnologías
+### 🔧 Backend (Node.js + Express)
 
-- **Node.js** - Runtime de JavaScript
-- **Express** - Framework web
-- **PostgreSQL** - Base de datos relacional
-- **JWT** - Autenticación con JSON Web Tokens
+- ✅ **API REST completa** con arquitectura MVC
+- ✅ **CRUD** de Usuarios y Tareas
+- ✅ **Autenticación JWT** (login/register)
+- ✅ **API de paginación** con búsqueda, filtros y ordenamiento
+- ✅ **Sistema de reportes** con 7 endpoints analytics
+- ✅ **Seguridad:** Bcrypt, Helmet, CORS, Rate Limiting
+- ✅ **Validaciones** con express-validator
+- ✅ **Base de datos PostgreSQL** optimizada con índices
+- ✅ **Logging** con Pino
+- ✅ **Documentación Swagger**
+
+### 🎨 Frontend (React + Vite)
+
+- ✅ **React 19** con Vite para desarrollo rápido
+- ✅ **Dashboard interactivo** con estadísticas
+- ✅ **Gestión completa** de usuarios y tareas
+- ✅ **Paginación avanzada** con filtros en tiempo real
+- ✅ **Sistema de reportes** con visualizaciones
+- ✅ **Diseño moderno** con gradientes y animaciones
+- ✅ **Responsive design** para móviles y desktop
+- ✅ **Autenticación** con manejo de tokens JWT
+
+---
+
+## 🛠 Tecnologías Utilizadas
+
+### Backend
+- **Node.js** v24+
+- **Express** v5
+- **PostgreSQL** - Base de datos
+- **JWT** - Autenticación
 - **Bcrypt** - Encriptación de contraseñas
-- **Express Validator** - Validación de datos
-- **Pino** - Logger de alto rendimiento
-- **Morgan** - HTTP request logger
-- **CORS & Helmet** - Seguridad
-- **Express Rate Limit** - Limitación de peticiones
-- **ESLint** - Linter para código limpio
+- **Pino** - Logging
+- **Express Validator** - Validaciones
+- **Swagger UI** - Documentación
 
-## 📦 Prerequisitos
+### Frontend
+- **React** 19
+- **Vite** 8
+- **React Router** v7
+- **Axios** - Cliente HTTP
+- **CSS3** - Estilos modernos
 
-Antes de comenzar, asegúrate de tener instalado:
+---
 
-- Node.js (v14 o superior)
-- PostgreSQL (v12 o superior)
-- npm o yarn
+## 📦 Instalación y Configuración
 
-## 🔧 Instalación
+### Prerrequisitos
 
-1. **Clonar el repositorio**
 ```bash
-git clone <url-del-repositorio>
-cd node-base-diplomado
+Node.js >= 18
+PostgreSQL >= 14
+Git
 ```
 
-2. **Instalar dependencias**
+### 1. Clonar el repositorio
+
 ```bash
+git clone https://github.com/luisfernandoAngulo28/ProyectoFinalM4Nodejs.git
+cd ProyectoFinalM4Nodejs
+```
+
+### 2. Configurar el Backend
+
+```bash
+cd backend
+
+# Instalar dependencias
 npm install
-```
 
-3. **Crear base de datos**
-```bash
-# Acceder a PostgreSQL
-psql -U postgres
-
-# Crear la base de datos
-CREATE DATABASE BDCrudEstudiante;
-
-# Salir
-\q
-```
-
-4. **Ejecutar script SQL**
-```bash
-$env:PGPASSWORD='12345678'; psql -U postgres -h localhost -d BDCrudEstudiante -f database.sql
-```
-
-## ⚙️ Configuración
-
-1. **Copiar el archivo de variables de entorno**
-```bash
+# Crear archivo .env
 cp .env.sample .env
 ```
 
-2. **Configurar variables de entorno en `.env`**
+Editar el archivo `.env` con tus credenciales:
+
 ```env
 PORT=3000
-
-# Database Configuration
-DB_USER=postgres
 DB_HOST=localhost
-
-# JWT Configuration
-JWT_SECRET=mi_clave_secreta_super_segura_2026_diplomado
-JWT_EXPIRES_IN=24h
-DB_NAME=BDCrudEstudiante
-DB_PASSWORD=12345678
 DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=tu_password
+DB_NAME=BDCrudEstudiante
+JWT_SECRET=tu_secreto_jwt_super_seguro
 ```
 
-## 🚀 Uso
+### 3. Configurar la Base de Datos
 
-### Modo Desarrollo (con auto-reload)
 ```bash
+# Conectar a PostgreSQL
+psql -U postgres
+
+# Crear base de datos
+CREATE DATABASE BDCrudEstudiante;
+
+# Conectar a la base de datos
+\c BDCrudEstudiante
+
+# Ejecutar script de base de datos
+\i database.sql
+
+# Salir de PostgreSQL
+\q
+
+# Hashear contraseñas (ejecutar desde la carpeta backend)
+node fix-passwords.js
+```
+
+### 4. Configurar el Frontend
+
+```bash
+cd ../frontend
+
+# Instalar dependencias
+npm install
+```
+
+---
+
+## 🚀 Ejecución del Proyecto
+
+### Opción 1: Ejecutar ambos proyectos (recomendado)
+
+**Terminal 1 - Backend:**
+```bash
+cd backend
+npm run start:dev
+```
+El backend estará corriendo en: `http://localhost:3000`
+
+**Terminal 2 - Frontend:**
+```bash
+cd frontend
+npm run dev
+```
+El frontend estará corriendo en: `http://localhost:5173`
+
+### Opción 2: Ejecutar solo el Backend
+
+```bash
+cd backend
 npm run start:dev
 ```
 
-### Modo Producción
+Acceder a Swagger: `http://localhost:3000/api-docs`
+
+### Opción 3: Ejecutar solo el Frontend (requiere backend corriendo)
+
 ```bash
-npm start
+cd frontend
+npm run dev
 ```
 
-### Lint (verificar código)
-```bash
-npm run lint
+---
+
+## 🔑 Credenciales de Prueba
+
+### Usuarios DC Comics
+- 🦸 **superman** / clark123
+- 🦇 **batman** / bruce123
+- 👸 **wonderwoman** / diana123
+- ⚡ **flash** / barry123
+- 🌊 **aquaman** / arthur123
+
+### Usuarios Marvel
+- 🦾 **ironman** / tony123
+- 🕷️ **spiderman** / peter123
+- 🛡️ **captainamerica** / steve123
+- 🔨 **thor** / odinson123
+- 💚 **hulk** / bruce123
+
+---
+
+## 📊 API Endpoints Principales
+
+### Autenticación
+- `POST /api/auth/register` - Registrar usuario
+- `POST /api/auth/login` - Iniciar sesión
+- `GET /api/auth/me` - Usuario actual (protegido)
+
+### Usuarios
+- `GET /api/users` - Listar todos los usuarios
+- `GET /api/users/:id` - Obtener usuario por ID
+- `GET /api/users/:id/tasks` - Usuario con sus tareas
+- `GET /api/users/list/pagination` - **Paginación con filtros** ⭐
+- `POST /api/users` - Crear usuario
+- `PUT /api/users/:id` - Actualizar usuario
+- `DELETE /api/users/:id` - Eliminar usuario
+
+### Tareas
+- `GET /api/tasks` - Listar todas las tareas
+- `GET /api/tasks/:id` - Obtener tarea por ID
+- `GET /api/tasks/user/:userId` - Tareas de un usuario
+- `POST /api/tasks` - Crear tarea
+- `PUT /api/tasks/:id` - Actualizar tarea
+- `DELETE /api/tasks/:id` - Eliminar tarea
+
+### Reportes (Extra)
+- `GET /api/reports/general` - Estadísticas generales
+- `GET /api/reports/top-users` - Ranking de usuarios
+- `GET /api/reports/user-progress` - Progreso por usuario
+- `GET /api/reports/users-comparison` - Comparativa
+- `GET /api/reports/inactive-users` - Usuarios sin tareas
+
+---
+
+## 🎯 API de Paginación (Requisito del Examen)
+
+### Endpoint:
+```
+GET /api/users/list/pagination
 ```
 
-### Lint y auto-fix
+### Parámetros:
+- `page`: Número de página (default: 1)
+- `limit`: Registros por página - 5, 10, 15, 20 (default: 10)
+- `search`: Búsqueda por username (case insensitive)
+- `status`: Filtro por estado - active, inactive
+- `orderBy`: Campo de ordenamiento - id, username, status (default: id)
+- `orderDir`: Dirección - ASC, DESC (default: DESC)
+
+### Ejemplo de uso:
 ```bash
-npm run lint:fix
+curl "http://localhost:3000/api/users/list/pagination?page=1&limit=10&search=man&status=active&orderBy=username&orderDir=ASC" \
+  -H "Authorization: Bearer TU_TOKEN"
 ```
 
-El servidor estará disponible en: `http://localhost:3000`
-
-### Health Check
-```bash
-curl http://localhost:3000/health
-```
-
-## 📚 API Endpoints
-
-### � Authentication
-
-| Método | Endpoint | Descripción | Requiere Auth |
-|--------|----------|-------------|---------------|
-| POST | `/api/auth/register` | Registrar nuevo usuario | No |
-| POST | `/api/auth/login` | Iniciar sesión | No |
-| GET | `/api/auth/me` | Obtener usuario actual | Sí |
-
-**Ejemplo de Login:**
-```bash
-POST http://localhost:3000/api/auth/login
-Content-Type: application/json
-
-{
-  "username": "admin",
-  "password": "admin123"
-}
-```
-
-**Respuesta:**
+### Respuesta:
 ```json
 {
   "success": true,
-  "message": "Login exitoso",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": 1,
-    "username": "admin",
-    "status": "active"
-  }
-}
-```
-
-**Usar el token en otras peticiones:**
-```bash
-GET http://localhost:3000/api/auth/me
-Authorization: Bearer <tu-token-aqui>
-```
-
-### �👤 Users
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/api/users` | Obtener todos los usuarios |
-| GET | `/api/users/:id` | Obtener usuario por ID |
-| POST | `/api/users` | Crear nuevo usuario |
-| PUT | `/api/users/:id` | Actualizar usuario |
-| DELETE | `/api/users/:id` | Eliminar usuario |
-| GET | `/api/users/list/pagination` | Listar con paginación |
-
-### ✅ Tasks
-
-| Método | Endpoint | Descripción |
-|--------|----------|-------------|
-| GET | `/api/tasks` | Obtener todas las tareas |
-| GET | `/api/tasks/:id` | Obtener tarea por ID |
-| GET | `/api/tasks/user/:userId` | Obtener tareas por usuario |
-| POST | `/api/tasks` | Crear nueva tarea |
-| PUT | `/api/tasks/:id` | Actualizar tarea |
-| DELETE | `/api/tasks/:id` | Eliminar tarea |
-
-### 🔍 API de Paginación (30 pts)
-
-**GET** `/api/users/list/pagination`
-
-**Query Parameters:**
-
-| Parámetro | Tipo | Default | Descripción | Valores Permitidos |
-|-----------|------|---------|-------------|-------------------|
-| `page` | integer | 1 | Número de página | - |
-| `limit` | integer | 10 | Registros por página | 5, 10, 15, 20 |
-| `search` | string | "" | Búsqueda por username (ILIKE) | - |
-| `orderBy` | string | "id" | Campo para ordenar | id, username, status |
-| `orderDir` | string | "DESC" | Dirección del orden | ASC, DESC |
-
-**Ejemplo:**
-```bash
-GET http://localhost:3000/api/users/list/pagination?page=1&limit=5&search=user&orderBy=username&orderDir=DESC
-```
-
-**Respuesta:**
-```json
-{
-  "success": true,
-  "total": 20,
+  "total": 18,
   "page": 1,
-  "pages": 4,
+  "pages": 2,
   "data": [
     {
-      "id": 1,
-      "username": "admin",
-      "status": "active"
+      "id": 10,
+      "username": "spiderman",
+      "status": "active",
+      "created_at": "2026-03-04T20:00:00.000Z",
+      "updated_at": "2026-03-04T20:00:00.000Z"
     }
   ]
 }
 ```
 
-## 📖 Documentación Swagger
+---
 
-Para ver la documentación completa de todas las APIs:
+## 📚 Documentación Completa
 
-1. Abre el archivo `swagger.yaml`
-2. Copia todo su contenido
-3. Ve a https://editor.swagger.io/
-4. Pega el contenido en el editor
-5. Verás todas las APIs con ejemplos de request/response
+El proyecto incluye documentación exhaustiva:
 
-## 🔒 Seguridad
-
-Este proyecto implementa múltiples capas de seguridad:
-
-- **JWT**: Autenticación mediante JSON Web Tokens con expiración configurable
-- **Bcrypt**: Las contraseñas se encriptan con bcrypt (10 salt rounds)
-- **Helmet**: Protección contra vulnerabilidades web comunes
-- **CORS**: Control de acceso entre orígenes
-- **Rate Limiting**: Máximo 100 peticiones por IP cada 15 minutos
-- **Validación de entrada**: Validaciones robustas con express-validator
-- **Sanitización**: Limpieza de datos de entrada
-- **Manejo de errores**: Middleware centralizado que no expone información sensible
-- **Índices en BD**: Optimización de consultas para mejor performance
-
-## 📁 Estructura del Proyecto
-
-```
-node-base-diplomado/
-├── src/
-│   ├── app.js                    # Configuración de Express
-│   ├── index.js                  # Punto de entrada
-│   ├── config/
-│   │   ├── db.js                 # Configuración de PostgreSQL
-│   │   └── env.js                # Variables de entorno
-│   ├── controllers/
-│   │   ├── auth.controller.js    # Controladores de autenticación
-│   │   ├── user.controller.js    # Controladores de usuarios
-│   │   └── task.controller.js    # Controladores de tareas
-│   ├── routes/
-│   │   ├── auth.route.js         # Rutas de autenticación
-│   │   ├── users.route.js        # Rutas de usuarios
-│   │   └── tasks.route.js        # Rutas de tareas
-│   ├── middlewares/
-│   │   ├── auth.js               # Middleware de autenticación JWT
-│   │   ├── validators.js         # Validaciones con express-validator
-│   │   └── errorHandler.js       # Manejo de errores
-│   └── logs/
-│       └── logger.js             # Configuración de Pino
-├── database.sql                   # Script de creación de BD
-├── add-indexes.sql                # Script de índices
-├── swagger.yaml                   # Documentación OpenAPI
-├── .env                          # Variables de entorno
-├── .env.sample                   # Ejemplo de variables
-├── .eslintrc.json                # Configuración ESLint
-├── .gitignore                    # Archivos ignorados por Git
-├── package.json                  # Dependencias del proyecto
-├── SCRIPTS.md                    # Comandos útiles
-└── README.md                     # Este archivo
-```
-│   │   └── task.controller.js    # Controladores de tareas
-│   ├── routes/
-│   │   ├── users.route.js        # Rutas de usuarios
-│   │   └── tasks.route.js        # Rutas de tareas
-│   ├── middlewares/
-│   │   └── errorHandler.js       # Manejo de errores
-│   └── logs/
-│       └── logger.js             # Configuración de Pino
-├── database.sql                   # Script de creación de BD
-├── swagger.yaml                   # Documentación OpenAPI
-├── .env                          # Variables de entorno
-├── .env.sample                   # Ejemplo de variables
-├── .gitignore                    # Archivos ignorados por Git
-├── package.json                  # Dependencias del proyecto
-└── README.md                     # Este archivo
-```
-
-## 🧪 Ejemplos de Uso
-
-### Crear un Usuario
-```bash
-curl -X POST http://localhost:3000/api/users \
-  -H "Content-Type: application/json" \
-  -d '{
-    "username": "nuevouser",
-    "password": "password123",
-    "status": "active"
-  }'
-```
-
-### Crear una Tarea
-```bash
-curl -X POST http://localhost:3000/api/tasks \
-  -H "Content-Type: application/json" \
-  -d '{
-    "name": "Completar proyecto",
-    "done": false,
-    "user_id": 1
-  }'
-```
-
-### Actualizar Usuario
-```bash
-curl -X PUT http://localhost:3000/api/users/1 \
-  -H "Content-Type: application/json" \
-  -d '{
-    "status": "inactive"
-  }'
-```
-
-## 📊 Base de Datos
-
-### Modelo de Datos
-
-**Tabla: users**
-- `id` (SERIAL, PRIMARY KEY)
-- `username` (VARCHAR, UNIQUE)
-- `password` (VARCHAR, encrypted)
-- `status` (VARCHAR)
-
-**Tabla: tasks**
-- `id` (SERIAL, PRIMARY KEY)
-- `name` (VARCHAR)
-- `done` (BOOLEAN)
-- `user_id` (INTEGER, FOREIGN KEY → users.id)
-
-## 🤝 Contribuir
-
-Las contribuciones son bienvenidas. Por favor:
-
-1. Fork el proyecto
-2. Crea tu rama de feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abre un Pull Request
-
-## 📝 Licencia
-
-Este proyecto es de código abierto y está disponible bajo la licencia ISC.
-
-## 👨‍💻 Autor
-
-Diplomado Node.js - Proyecto Final
-
-## 🎯 Evaluación
-
-- ✅ **50 pts**: CRUD completo de Users y Tasks
-- ✅ **30 pts**: API de paginación con búsqueda y ordenamiento
-- ✅ **Extras Implementados**:
-  - 🔐 Autenticación JWT completa
-  - ✅ Validaciones avanzadas con express-validator
-  - 🔒 Múltiples capas de seguridad (bcrypt, CORS, Helmet, Rate Limit)
-  - 📊 Índices en base de datos para mejor performance
-  - 🧹 ESLint configurado
-  - 📖 Documentación completa (README + Swagger)
-  - ⚙️ Manejo profesional de errores
-  - 📝 Logger avanzado con Pino
-
-**Total: 100+ puntos con mejoras profesionales**
+- **[backend/README.md](./backend/README.md)** - Documentación detallada del backend
+- **[backend/EXAMEN-FINAL-RESUMEN.md](./backend/EXAMEN-FINAL-RESUMEN.md)** - Resumen ejecutivo del examen
+- **[backend/DOCUMENTACION-PAGINACION.md](./backend/DOCUMENTACION-PAGINACION.md)** - Guía de la API de paginación
+- **[backend/DOCUMENTACION-REPORTES.md](./backend/DOCUMENTACION-REPORTES.md)** - Sistema de reportes
+- **[backend/SETUP-DATABASE.md](./backend/SETUP-DATABASE.md)** - Configuración de base de datos
+- **[backend/swagger.yaml](./backend/swagger.yaml)** - Especificación OpenAPI 3.0
+- **[frontend/README.md](./frontend/README.md)** - Documentación del frontend
 
 ---
 
-⭐ Si te fue útil este proyecto, no olvides darle una estrella en GitHub!
+## 🎓 Requisitos del Examen Cumplidos
+
+### ✅ 50 puntos - Proyecto Completo
+- Backend con Node.js + Express
+- Frontend con React + Vite
+- Base de datos PostgreSQL
+- Autenticación JWT
+- CRUD completo
+- Validaciones
+- Seguridad
+- Documentación
+
+### ✅ 30 puntos - API de Paginación Investigada
+- Endpoint `/api/users/list/pagination`
+- Paginación (page, limit)
+- Búsqueda (search)
+- Filtro por estado (status)
+- Ordenamiento (orderBy, orderDir)
+- Validaciones completas
+- Frontend implementado
+
+### 🌟 Características Extra (50+ puntos)
+- Sistema de reportes completo (7 endpoints)
+- Frontend paginado con filtros
+- Endpoint usuario con tareas
+- Seguridad avanzada
+- Base de datos optimizada
+- Documentación exhaustiva
+
+**Puntuación esperada: 130+ puntos** (de 80 requeridos)
+
+---
+
+## 🧪 Testing
+
+### Backend - Pruebas manuales
+
+```bash
+cd backend
+
+# Test de login
+curl -X POST http://localhost:3000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"batman","password":"bruce123"}'
+
+# Test de paginación
+curl "http://localhost:3000/api/users/list/pagination?page=1&limit=5" \
+  -H "Authorization: Bearer TU_TOKEN"
+```
+
+### Frontend - Pruebas en navegador
+
+1. Abrir `http://localhost:5173`
+2. Iniciar sesión con: **batman** / **bruce123**
+3. Navegar por el dashboard
+4. Probar la página de usuarios con filtros
+5. Verificar el sistema de reportes
+
+---
+
+## 🐛 Troubleshooting
+
+### Error: "Credenciales inválidas"
+**Solución:** Ejecutar `node fix-passwords.js` en la carpeta backend
+
+### Error: "Database connection failed"
+**Solución:** Verificar credenciales en `.env` y que PostgreSQL esté corriendo
+
+### Frontend no carga datos
+**Solución:** Verificar que el backend esté corriendo en puerto 3000
+
+### Puerto en uso
+**Solución:** Cambiar el puerto en las variables de entorno o matar el proceso
+
+---
+
+## 📁 Scripts Útiles
+
+### Backend
+```bash
+npm run start:dev  # Modo desarrollo con auto-reload
+npm run start      # Modo producción
+npm run lint       # Revisar código
+npm run lint:fix   # Corregir errores de linting
+```
+
+### Frontend
+```bash
+npm run dev        # Modo desarrollo
+npm run build      # Build para producción
+npm run preview    # Preview del build
+npm run lint       # Revisar código
+```
+
+---
+
+## 🔒 Seguridad
+
+- ✅ Contraseñas hasheadas con bcrypt (10 salt rounds)
+- ✅ Autenticación JWT con expiración
+- ✅ Rate limiting (100 requests/15min)
+- ✅ Helmet para headers seguros
+- ✅ CORS configurado
+- ✅ Validación de todos los inputs
+- ✅ Protección contra SQL injection
+- ✅ Variables de entorno para secretos
+
+---
+
+## 📈 Performance
+
+- ✅ 6 índices en base de datos para queries optimizadas
+- ✅ Paginación en servidor (no carga todos los registros)
+- ✅ Logging estructurado con Pino
+- ✅ Queries SQL parametrizadas
+- ✅ Vite para build rápido del frontend
+
+---
+
+## 🎨 Características de UI/UX
+
+- ✅ Diseño moderno con gradientes morado/azul
+- ✅ Animaciones suaves (fade in, slide up)
+- ✅ Responsive design (móvil, tablet, desktop)
+- ✅ Loading states y spinners
+- ✅ Feedback visual de acciones
+- ✅ Tablas interactivas con hover effects
+- ✅ Modal forms para crear/editar
+- ✅ Progress bars animadas en reportes
+
+---
+
+## 🤝 Contribución
+
+Este es un proyecto académico desarrollado para el Diplomado en Fullstack Developer. El código está disponible para fines educativos.
+
+---
+
+## 📄 Licencia
+
+ISC
+
+---
+
+## 👨‍🎓 Autor
+
+**Ing. Angulo Heredia Luis Fernando**
+
+- **Universidad:** UNIVERSIDAD SIMÓN I. PATIÑO
+- **Diplomado:** FULLSTACK DEVELOPER BACK END Y FRONT END
+- **Módulo:** MÓDULO 4: ARQUITECTURA DESARROLLO BACKEND CON NODEJS
+- **Docente:** Ing. Trigo Vargas Carlos Ariel
+
+---
+
+## 🔗 Enlaces Útiles
+
+- **Repositorio:** https://github.com/luisfernandoAngulo28/ProyectoFinalM4Nodejs
+- **Repositorio Base:** https://github.com/ctrigo10/node-base-diplomado
+- **Swagger Editor:** https://editor.swagger.io/
+- **Documento del Proyecto:** [Google Docs](https://docs.google.com/document/d/1lfWP7jfguLLh1PLFF_OvBse25SeM1z9RI759D-_qNv4/edit)
+
+---
+
+## ⭐ Agradecimientos
+
+Agradecimiento especial al Ing. Carlos Ariel Trigo Vargas por su dedicación y enseñanza durante el módulo de Backend con Node.js.
+
+---
+
+**Fecha de completado:** 4 de Marzo, 2026  
+**Fecha de entrega:** 7 de Marzo, 2026  
+**Estado:** ✅ COMPLETO Y LISTO PARA ENTREGA
+
+---
+
+## 🚀 ¡Comienza ahora!
+
+```bash
+# Clonar el repositorio
+git clone https://github.com/luisfernandoAngulo28/ProyectoFinalM4Nodejs.git
+
+# Backend
+cd ProyectoFinalM4Nodejs/backend
+npm install
+npm run start:dev
+
+# Frontend (en otra terminal)
+cd ProyectoFinalM4Nodejs/frontend
+npm install
+npm run dev
+```
+
+**¡Visita http://localhost:5173 y comienza a usar el sistema!** 🎉
