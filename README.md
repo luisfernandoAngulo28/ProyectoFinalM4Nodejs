@@ -1,5 +1,19 @@
 # 🚀 Proyecto Final - Sistema de Gestión de Usuarios y Tareas
 
+<div align="center">
+
+[![Frontend - Vercel](https://img.shields.io/badge/Frontend-Live%20on%20Vercel-black?style=for-the-badge&logo=vercel)](https://proyecto-final-m4-nodejs.vercel.app)
+[![Backend - Render](https://img.shields.io/badge/Backend-Live%20on%20Render-46E3B7?style=for-the-badge&logo=render)](https://proyectofinalm4nodejs.onrender.com/api-docs)
+[![Database - Neon](https://img.shields.io/badge/Database-Neon%20PostgreSQL-00E699?style=for-the-badge&logo=postgresql)](https://neon.tech)
+
+### 🌐 Aplicación Desplegada y Funcionando
+
+**Frontend:** [https://proyecto-final-m4-nodejs.vercel.app](https://proyecto-final-m4-nodejs.vercel.app)  
+**Backend API:** [https://proyectofinalm4nodejs.onrender.com](https://proyectofinalm4nodejs.onrender.com)  
+**Documentación:** [https://proyectofinalm4nodejs.onrender.com/api-docs](https://proyectofinalm4nodejs.onrender.com/api-docs)
+
+</div>
+
 ---
 
 ## 🎓 INFORMACIÓN ACADÉMICA
@@ -100,6 +114,12 @@ ProyectoFinalM4Nodejs/
 - **React Router** v7
 - **Axios** - Cliente HTTP
 - **CSS3** - Estilos modernos
+
+### Cloud & Deployment
+- **Vercel** - Hosting del frontend
+- **Render** - Hosting del backend (Node.js)
+- **Neon** - Base de datos PostgreSQL serverless
+- **GitHub** - Control de versiones y CI/CD
 
 ---
 
@@ -228,6 +248,54 @@ npm run dev
 - 🛡️ **captainamerica** / steve123
 - 🔨 **thor** / odinson123
 - 💚 **hulk** / bruce123
+
+> **Nota:** Estas credenciales funcionan tanto en localhost como en la aplicación desplegada en producción.
+
+---
+
+## 🌐 Despliegue en la Nube
+
+El proyecto está completamente desplegado y funcionando en producción:
+
+### 📦 Servicios Utilizados
+
+- **Frontend (Vercel):** [proyecto-final-m4-nodejs.vercel.app](https://proyecto-final-m4-nodejs.vercel.app)
+  - Despliegue automático desde GitHub
+  - Root Directory: `frontend`
+  - Build Command: `npm run build`
+  - Output Directory: `dist`
+
+- **Backend (Render):** [proyectofinalm4nodejs.onrender.com](https://proyectofinalm4nodejs.onrender.com)
+  - Free tier con auto-sleep después de 15 minutos
+  - Build Command: `npm install`
+  - Start Command: `npm start`
+  - Root Directory: `backend`
+
+- **Base de Datos (Neon):**
+  - PostgreSQL serverless
+  - Free tier con 0.5GB de almacenamiento
+  - Conexión directa desde Render
+
+### ⚙️ Variables de Entorno Configuradas
+
+**En Vercel (Frontend):**
+```env
+VITE_API_URL=https://proyectofinalm4nodejs.onrender.com/api
+```
+
+**En Render (Backend):**
+```env
+NODE_ENV=production
+PORT=3000
+DATABASE_URL=postgresql://...
+JWT_SECRET=...
+FRONTEND_URL=https://proyecto-final-m4-nodejs.vercel.app
+```
+
+### 📝 Archivos de Configuración
+
+- `frontend/vercel.json` - Configuración para routing SPA en Vercel
+- Ver guías completas en `DEPLOY-VERCEL-RENDER.md` y `DEPLOY-RAILWAY.md`
 
 ---
 
