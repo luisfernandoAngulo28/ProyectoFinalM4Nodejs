@@ -12,9 +12,11 @@ package-lock.json
 .env.test.local
 .env.production.local
 
-# Logs
-logs/
+# Logs (archivos de log, no código)
 *.log
+*.log.*
+logs/*.log
+logs/**/*.log
 
 # OS Files
 .DS_Store
