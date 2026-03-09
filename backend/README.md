@@ -55,6 +55,23 @@ API REST completa para la gestión de usuarios y tareas con Node.js, Express y P
 - ✅ Variables de entorno
 - ✅ Documentación Swagger
 
+### 🎓 Características Educativas Agregadas
+
+Este proyecto ahora incluye ejemplos adicionales de **Sequelize ORM** y **Joi** como alternativas educativas:
+
+- 🆕 **Modelos Sequelize** - Ejemplos de ORM para PostgreSQL
+- 🆕 **Validaciones con Joi** - Alternativa a express-validator
+- 🆕 **Controladores de ejemplo** - Comparación pg vs Sequelize
+- 🆕 **Endpoints de prueba** - `/api/v2/test/*` con Sequelize
+- 🆕 **Swagger actualizado** - Documentación completa de ambos enfoques
+- 🆕 **Guías completas** - Documentación de aprendizaje
+
+📚 **Lee:** [CARACTERISTICAS-AGREGADAS.md](./CARACTERISTICAS-AGREGADAS.md) para más detalles.  
+📖 **Guía:** [GUIA-APRENDIZAJE-PG-VS-SEQUELIZE.md](./GUIA-APRENDIZAJE-PG-VS-SEQUELIZE.md) para comparar ambos enfoques.  
+📖 **Swagger:** [SWAGGER-ACTUALIZADO.md](./SWAGGER-ACTUALIZADO.md) para ver los nuevos endpoints documentados.
+
+**⚠️ Nota:** Los ejemplos de Sequelize NO reemplazan tu código actual, son solo para aprendizaje.
+
 ## 🛠 Tecnologías
 
 - **Node.js** - Runtime de JavaScript
@@ -260,13 +277,52 @@ GET http://localhost:3000/api/users/list/pagination?page=1&limit=5&search=user&o
 
 ## 📖 Documentación Swagger
 
-Para ver la documentación completa de todas las APIs:
+La API cuenta con documentación interactiva completa usando Swagger/OpenAPI 3.0.
+
+### 🌐 Acceder a Swagger UI
+
+Con el servidor corriendo:
+```
+http://localhost:3000/api-docs
+```
+
+### 📋 Contenido de Swagger
+
+El Swagger ahora incluye **todos los endpoints**:
+
+#### 1. **Endpoints de Producción** (pg driver)
+- `/api/users` - CRUD de usuarios
+- `/api/tasks` - CRUD de tareas
+- `/api/users/list/pagination` - Paginación avanzada
+
+#### 2. **Endpoints de Prueba** 🆕 (Sequelize ORM)
+- `/api/v2/test/users` - Listar usuarios con Sequelize
+- `/api/v2/test/users/{id}/tasks` - Usuario con tareas (JOIN automático)
+- `/api/v2/test/search?q=super` - Búsqueda inteligente
+- `/api/v2/test/stats` - Estadísticas en tiempo real
+- Y más... (ver sección **"Sequelize Test"** en Swagger)
+
+### 🎯 Características de Swagger
+
+- ✅ **Documentación completa** de cada endpoint
+- ✅ **Try it out** - Prueba directa desde el navegador
+- ✅ **Ejemplos de request/response**
+- ✅ **Esquemas de datos completos**
+- ✅ **Comparación visual** entre pg y Sequelize
+
+### 📖 Más Información
+
+Lee [SWAGGER-ACTUALIZADO.md](./SWAGGER-ACTUALIZADO.md) para una guía completa de cómo usar Swagger con los nuevos endpoints.
+
+### 📝 Editor Alternativo
+
+También puedes usar el Swagger Editor online:
 
 1. Abre el archivo `swagger.yaml`
 2. Copia todo su contenido
 3. Ve a https://editor.swagger.io/
 4. Pega el contenido en el editor
-5. Verás todas las APIs con ejemplos de request/response
+5. Explora todas las APIs con ejemplos
 
 ## 🔒 Seguridad
 

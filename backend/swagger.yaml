@@ -14,6 +14,8 @@ tags:
     description: Operaciones CRUD de usuarios
   - name: Tasks
     description: Operaciones CRUD de tareas
+  - name: Sequelize Test
+    description: Endpoints de prueba usando Sequelize ORM (para comparar con pg driver)
 
 paths:
   /api/users:
@@ -632,6 +634,308 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
+  # ========================================
+  # ENDPOINTS DE PRUEBA CON SEQUELIZE ORM
+  # ========================================
+  
+  /api/v2/test:
+    get:
+      tags:
+        - Sequelize Test
+      summary: Información de endpoints de prueba
+      description: Lista todos los endpoints disponibles con Sequelize ORM para comparar con pg driver
+      responses:
+        '200':
+          description: Lista de endpoints disponibles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Endpoints de Prueba con Sequelize ORM"
+                  endpoints:
+                    type: array
+                    items:
+                      type: object
+
+  /api/v2/test/users:
+    get:
+      tags:
+        - Sequelize Test
+      summary: Listar usuarios (Sequelize)
+      description: Obtener últimos 10 usuarios usando Sequelize ORM (compara con GET /api/users que usa pg)
+      responses:
+        '200':
+          description: Lista de usuarios obtenida con Sequelize
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Usuarios obtenidos con Sequelize ORM"
+                  count:
+                    type: integer
+                    example: 10
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '500':
+          description: Error del servidor
+
+  /api/v2/test/users/{id}:
+    get:
+      tags:
+        - Sequelize Test
+      summary: Obtener usuario por ID (Sequelize)
+      description: Obtener un usuario específico usando Sequelize findByPk
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario
+          example: 8
+      responses:
+        '200':
+          description: Usuario obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Usuario obtenido con Sequelize ORM"
+                  data:
+                    $ref: '#/components/schemas/User'
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error del servidor
+
+  /api/v2/test/users/{id}/tasks:
+    get:
+      tags:
+        - Sequelize Test
+      summary: Usuario con sus tareas (JOIN automático)
+      description: Obtener usuario con todas sus tareas usando Sequelize include (JOIN automático sin escribir SQL)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID del usuario
+          example: 8
+      responses:
+        '200':
+          description: Usuario con tareas obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Usuario con tareas obtenido usando Sequelize JOIN"
+                  data:
+                    type: object
+                    properties:
+                      user:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            example: 8
+                          username:
+                            type: string
+                            example: "superman"
+                          status:
+                            type: string
+                            example: "active"
+                      tasks:
+                        type: array
+                        items:
+                          $ref: '#/components/schemas/Task'
+                      totalTasks:
+                        type: integer
+                        example: 4
+        '404':
+          description: Usuario no encontrado
+        '500':
+          description: Error del servidor
+
+  /api/v2/test/search:
+    get:
+      tags:
+        - Sequelize Test
+      summary: Buscar usuarios (Sequelize Op.iLike)
+      description: Buscar usuarios por username usando operador iLike de Sequelize (case-insensitive)
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Texto a buscar en username
+          example: "super"
+      responses:
+        '200':
+          description: Resultados de búsqueda
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Búsqueda usando Sequelize Op.iLike"
+                  query:
+                    type: string
+                    example: "super"
+                  count:
+                    type: integer
+                    example: 1
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '400':
+          description: Parámetro de búsqueda requerido
+        '500':
+          description: Error del servidor
+
+  /api/v2/test/active-users:
+    get:
+      tags:
+        - Sequelize Test
+      summary: Usuarios activos (Sequelize WHERE)
+      description: Obtener solo usuarios con status = 'active' usando Sequelize where clause
+      responses:
+        '200':
+          description: Lista de usuarios activos
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Usuarios activos obtenidos con Sequelize WHERE"
+                  count:
+                    type: integer
+                    example: 19
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+        '500':
+          description: Error del servidor
+
+  /api/v2/test/tasks/pending:
+    get:
+      tags:
+        - Sequelize Test
+      summary: Tareas pendientes (Sequelize)
+      description: Obtener todas las tareas con done = false, incluyendo información del usuario (JOIN inverso)
+      responses:
+        '200':
+          description: Lista de tareas pendientes con usuario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Tareas pendientes con información de usuario (JOIN)"
+                  count:
+                    type: integer
+                    example: 15
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TaskWithUser'
+        '500':
+          description: Error del servidor
+
+  /api/v2/test/stats:
+    get:
+      tags:
+        - Sequelize Test
+      summary: Estadísticas (Sequelize count)
+      description: Obtener estadísticas generales usando funciones de agregación de Sequelize
+      responses:
+        '200':
+          description: Estadísticas obtenidas exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  message:
+                    type: string
+                    example: "Estadísticas usando Sequelize count()"
+                  data:
+                    type: object
+                    properties:
+                      users:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            example: 22
+                          active:
+                            type: integer
+                            example: 19
+                          inactive:
+                            type: integer
+                            example: 3
+                      tasks:
+                        type: object
+                        properties:
+                          total:
+                            type: integer
+                            example: 25
+                          completed:
+                            type: integer
+                            example: 10
+                          pending:
+                            type: integer
+                            example: 15
+        '500':
+          description: Error del servidor
 
 components:
   schemas:
