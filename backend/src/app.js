@@ -68,6 +68,20 @@ app.use('/api/reports', reportsRoutes);
 // Estas rutas están en /api/v2/test/ y NO interfieren con tus rutas actuales
 app.use('/api/v2/test', testSequelizeRoutes);
 
+// Root endpoint
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'API is running',
+    version: '1.0.0',
+    endpoints: {
+      docs: '/api-docs',
+      health: '/health',
+      api: '/api'
+    }
+  });
+});
+
 // Health check
 app.get('/health', (req, res) => {
   res.json({
