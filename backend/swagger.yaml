@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: API CRUD Users & Tasks
+  title: ApiDiplomadoModulo4
   description: API REST para gestión de usuarios y tareas con paginación
   version: 1.0.0
   contact:
