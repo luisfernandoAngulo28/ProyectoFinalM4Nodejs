@@ -4,7 +4,9 @@ import {
   validateCreateUser, 
   validateUpdateUser, 
   validateUserId,
-  validatePagination 
+  validatePagination,
+  validateBulkUsers,
+  validatePatchUser
 } from '../middlewares/validators.js';
 
 const router = Router();
@@ -24,8 +26,14 @@ router.get('/:id', validateUserId, userController.getUserById);
 // POST /api/users - Create new user
 router.post('/', validateCreateUser, userController.createUser);
 
+// POST /api/users/bulk - Create multiple users
+router.post('/bulk', validateBulkUsers, userController.createBulkUsers);
+
 // PUT /api/users/:id - Update user
 router.put('/:id', validateUpdateUser, userController.updateUser);
+
+// PATCH /api/users/:id - Partially update user
+router.patch('/:id', validatePatchUser, userController.patchUser);
 
 // DELETE /api/users/:id - Delete user
 router.delete('/:id', validateUserId, userController.deleteUser);

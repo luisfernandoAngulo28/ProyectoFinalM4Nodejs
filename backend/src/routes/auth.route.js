@@ -1,12 +1,9 @@
 import { Router } from 'express';
 import authController from '../controllers/auth.controller.js';
 import { verifyToken } from '../middlewares/auth.js';
-import { validateLogin, validateRegister } from '../middlewares/validators.js';
+import { validateRegister } from '../middlewares/validators.js';
 
 const router = Router();
-
-// POST /api/auth/login - Login
-router.post('/login', validateLogin, authController.login);
 
 // POST /api/auth/register - Register
 router.post('/register', validateRegister, authController.register);

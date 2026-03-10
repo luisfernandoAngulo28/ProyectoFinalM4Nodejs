@@ -22,7 +22,7 @@ api.interceptors.request.use((config) => {
 // Auth API
 export const authAPI = {
   login: async (username, password) => {
-    const response = await api.post('/auth/login', { username, password });
+    const response = await api.post('/login', { username, password });
     return response.data;
   },
   register: async (username, password) => {
@@ -49,8 +49,16 @@ export const usersAPI = {
     const response = await api.post('/users', userData);
     return response.data;
   },
+  createBulk: async (usersArray) => {
+    const response = await api.post('/users/bulk', { users: usersArray });
+    return response.data;
+  },
   update: async (id, userData) => {
     const response = await api.put(`/users/${id}`, userData);
+    return response.data;
+  },
+  patch: async (id, userData) => {
+    const response = await api.patch(`/users/${id}`, userData);
     return response.data;
   },
   delete: async (id) => {

@@ -8,6 +8,8 @@ import YAML from 'yamljs';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 import authRoutes from './routes/auth.route.js';
+import authController from './controllers/auth.controller.js';
+import { validateLogin } from './middlewares/validators.js';
 import usersRoutes from './routes/users.route.js';
 import tasksRoutes from './routes/tasks.route.js';
 import reportsRoutes from './routes/reports.route.js';
@@ -54,6 +56,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
+// Login endpoint directly under /api (without /auth prefix)
+app.post('/api/login', validateLogin, authController.login);
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes);
 app.use('/api/tasks', tasksRoutes);

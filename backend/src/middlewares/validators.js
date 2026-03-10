@@ -52,6 +52,40 @@ export const validateUserId = [
   handleValidationErrors
 ];
 
+export const validateBulkUsers = [
+  body('users')
+    .isArray({ min: 1 }).withMessage('Debe proporcionar un array de usuarios con al menos un elemento'),
+  body('users.*.username')
+    .trim()
+    .notEmpty().withMessage('Cada usuario debe tener username')
+    .isLength({ min: 3, max: 50 }).withMessage('Username debe tener entre 3 y 50 caracteres')
+    .matches(/^[a-zA-Z0-9_]+$/).withMessage('Username solo puede contener letras, números y guiones bajos'),
+  body('users.*.password')
+    .notEmpty().withMessage('Cada usuario debe tener password')
+    .isLength({ min: 6, max: 100 }).withMessage('Password debe tener al menos 6 caracteres'),
+  body('users.*.status')
+    .optional()
+    .isIn(['active', 'inactive']).withMessage('Status debe ser "active" o "inactive"'),
+  handleValidationErrors
+];
+
+export const validatePatchUser = [
+  param('id')
+    .isInt({ min: 1 }).withMessage('ID debe ser un número entero positivo'),
+  body('username')
+    .optional()
+    .trim()
+    .isLength({ min: 3, max: 50 }).withMessage('Username debe tener entre 3 y 50 caracteres')
+    .matches(/^[a-zA-Z0-9_]+$/).withMessage('Username solo puede contener letras, números y guiones bajos'),
+  body('password')
+    .optional()
+    .isLength({ min: 6, max: 100 }).withMessage('Password debe tener al menos 6 caracteres'),
+  body('status')
+    .optional()
+    .isIn(['active', 'inactive']).withMessage('Status debe ser "active" o "inactive"'),
+  handleValidationErrors
+];
+
 // Validaciones para tareas
 export const validateCreateTask = [
   body('name')

@@ -321,6 +321,147 @@ const getUserWithTasks = async (req, res) => {
   }
 };
 
+// CREATE BULK USERS - Crear múltiples usuarios
+const createBulkUsers = async (req, res) => {
+  try {
+    const { users } = req.body;
+    
+    if (!users || !Array.isArray(users) || users.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'Debe proporcionar un array de usuarios'
+      });
+    }
+    
+    // Validar cada usuario
+    for (const user of users) {
+      if (!user.username || !user.password) {
+        return res.status(400).json({
+          success: false,
+          message: 'Cada usuario debe tener username y password'
+        });
+      }
+    }
+    
+    const createdUsers = [];
+    const errors = [];
+    
+    // Procesar cada usuario
+    for (const user of users) {
+      try {
+        const { username, password, status } = user;
+        
+        // Encriptar password
+        const saltRounds = 10;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        
+        const result = await pool.query(
+          'INSERT INTO users (username, password, status) VALUES ($1, $2, $3) RETURNING id, username, status',
+          [username, hashedPassword, status || 'active']
+        );
+        
+        createdUsers.push(result.rows[0]);
+      } catch (error) {
+        if (error.code === '23505') {
+          errors.push({
+            username: user.username,
+            error: 'El username ya existe'
+          });
+        } else {
+          errors.push({
+            username: user.username,
+            error: error.message
+          });
+        }
+      }
+    }
+    
+    res.status(201).json({
+      success: true,
+      message: `${createdUsers.length} usuarios creados exitosamente`,
+      data: createdUsers,
+      errors: errors.length > 0 ? errors : undefined
+    });
+  } catch (error) {
+    logger.error('Error creating bulk users:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Error al crear usuarios',
+      error: error.message
+    });
+  }
+};
+
+// PATCH USER - Actualizar parcialmente un usuario
+const patchUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { username, password, status } = req.body;
+    
+    // Build dynamic query
+    const updates = [];
+    const values = [];
+    let paramCount = 1;
+    
+    if (username !== undefined) {
+      updates.push(`username = $${paramCount}`);
+      values.push(username);
+      paramCount++;
+    }
+    if (password !== undefined) {
+      // Encriptar password con bcrypt
+      const saltRounds = 10;
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
+      updates.push(`password = $${paramCount}`);
+      values.push(hashedPassword);
+      paramCount++;
+    }
+    if (status !== undefined) {
+      updates.push(`status = $${paramCount}`);
+      values.push(status);
+      paramCount++;
+    }
+    
+    if (updates.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: 'No hay campos para actualizar'
+      });
+    }
+    
+    values.push(id);
+    const query = `UPDATE users SET ${updates.join(', ')} WHERE id = $${paramCount} RETURNING id, username, status`;
+    
+    const result = await pool.query(query, values);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: 'Usuario no encontrado'
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: 'Usuario actualizado exitosamente',
+      data: result.rows[0]
+    });
+  } catch (error) {
+    logger.error('Error patching user:', error);
+    if (error.code === '23505') {
+      return res.status(409).json({
+        success: false,
+        message: 'El username ya existe'
+      });
+    }
+    res.status(500).json({
+      success: false,
+      message: 'Error al actualizar usuario',
+      error: error.message
+    });
+  }
+};
+
 export default {
   getAllUsers,
   getUserById,
@@ -328,5 +469,7 @@ export default {
   updateUser,
   deleteUser,
   getUsersPagination,
-  getUserWithTasks
+  getUserWithTasks,
+  createBulkUsers,
+  patchUser
 };
