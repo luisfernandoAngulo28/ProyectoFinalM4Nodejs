@@ -6,7 +6,7 @@ info:
   contact:
     name: Diplomado Node.js
 servers:
-  - url: https://proyectofinalm4nodejs.onrender.com
+  - url: https://fernando-angulo.onrender.com
     description: Servidor de producción (Render)
   - url: http://localhost:3000
     description: Servidor de desarrollo local
