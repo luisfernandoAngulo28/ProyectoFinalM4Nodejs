@@ -214,3 +214,4 @@ Las rutas protegidas redirigen a `/login` si no hay token válido.
 ---
 
 **Built with React + Vite**
+# Deploy trigger
