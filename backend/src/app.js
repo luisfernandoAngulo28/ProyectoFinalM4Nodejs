@@ -31,6 +31,7 @@ const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:3000',
   'https://proyecto-final-m4-nodejs.vercel.app',
+  'https://fernando-angulo.onrender.com', // Swagger del propio backend
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
